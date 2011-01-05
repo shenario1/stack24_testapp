@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  profile_id: 1
+  doctitle: MyString
+  tags: MyString
+  downloadcount: 1
+  viewcount: 1
+  rating: 1
+  reportspam: 1
+  points: 1
+
+two:
+  profile_id: 1
+  doctitle: MyString
+  tags: MyString
+  downloadcount: 1
+  viewcount: 1
+  rating: 1
+  reportspam: 1
+  points: 1

@@ -1,0 +1,1 @@
+FOR /R %1 %%I in (*.pdf) DO @"pdf2swf.exe" "%%~fI" -o "%%~dpI%%~nI.swf" -f -T 9 -t -G

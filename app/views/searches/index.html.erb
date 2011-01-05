@@ -1,0 +1,105 @@
+
+<div id="searchDiv">
+	
+	<br>
+		
+	<div id="searchpageform">
+		
+		<% form_tag search_path, :method => 'get' do %>
+			<%=text_field_tag :searchterm, params[:searchterm] %>
+			<%=submit_tag 'Search', :name => 'nil'%>
+			<label class="searchhelpLabel">&nbsp;&nbsp;&nbsp;<b>Tip:</b>&nbsp;Use # and @ before search terms for tag and user search respectively</label>
+		<%end%>
+	
+	</div>
+	
+	<br>
+	<%if !@searchresults.nil?%>
+		<h3 class="searchh3"> &nbsp;<%=pluralize(@searchresults[:search_count],"Search Result")%>&nbsp; <%= image_tag ('/images/doublearrow.png')%> &nbsp; </h3><hr>
+	<%else%>
+		<h3 class="searchh3"> &nbsp;No Results found &nbsp; </h3><hr>
+	<%end%>
+	<br>
+	
+	<div id="searchresultsDiv">
+		
+		<div id="searchNavigBar">
+			
+			<ul class="searchUL">
+				<li><%= image_tag('/images/searchDoc.png') %> &nbsp;<%=search_link("docs",params[:searchterm])%> &nbsp;|&nbsp; </li>
+				<li><%= image_tag('/images/searchQues.png') %>&nbsp;<%=search_link("ques",params[:searchterm])%> &nbsp;|&nbsp; </li>
+				<li><%= image_tag('/images/searchEvent.png') %>&nbsp;<%=search_link("events",params[:searchterm])%> &nbsp;|&nbsp; </li>
+				<li><%= image_tag('/images/searchUser.png') %>&nbsp;<%=search_link("users",params[:searchterm])%> &nbsp;|&nbsp; </li>
+				<li><%= image_tag('/images/searchShowAll.png') %>&nbsp;<%=search_link("all",params[:searchterm])%>&nbsp;</li>
+			</ul>
+		
+		</div>
+	
+		<br>
+		
+		
+		<%if !@searchresults.nil?%>
+			<div id="searchResultsDiv">
+			<%if @toggle === "all" && !@searchresults[:all].nil? && !@searchresults[:all].empty?%>
+				<%@searchresults[:all].each do|item|%>
+					<br/>
+					<% if item.instance_of?(Document) === true %>
+						<%= image_tag('/images/searchDoc.png') %> &nbsp; <%=link_to item.doctitle,document_path(item.id)%>
+					<% elsif item.instance_of?(Question) === true %>
+						<%= image_tag('/images/searchQues.png') %>&nbsp; <%=link_to item.questitle,question_path(item.id)%>
+					<% elsif item.instance_of?(Event) === true %>
+						<%= image_tag('/images/searchEvent.png') %>&nbsp; <%=link_to item.event_name,event_path(item.id)%>
+					<% elsif item.instance_of?(Profile) === true %>
+						<%= image_tag('/images/searchUser.png') %>&nbsp; <%=link_to item.name,profile_path(item.id)%>
+					<%end%>
+				<%end%>
+				<br/><br/>
+				<%= will_paginate @searchresults[:all] %>
+			
+			
+			<% elsif @toggle === "documents" && !@searchresults[:document_results].nil? && !@searchresults[:document_results].empty?%>
+				Documents:
+				<%@searchresults[:document_results].each do|document|%>
+					<br/>
+					<%=link_to document.doctitle,document_path(document.id)%>
+				<%end%>
+				<br/><br/>
+				<%= will_paginate @searchresults[:document_results] %>
+				
+			<% elsif @toggle === "questions" && !@searchresults[:question_results].nil? && !@searchresults[:question_results].empty?%>
+		
+				Questions:
+				<%@searchresults[:question_results].each do|question|%>
+					<br/>
+					<%=link_to question.questitle,question_path(question.id)%>
+				<%end%>
+				<br/><br/>
+				<%= will_paginate @searchresults[:question_results] %>
+				
+			<% elsif @toggle === "events" && !@searchresults[:event_results].nil? && !@searchresults[:event_results].empty?%>
+		
+				Events:
+				<%@searchresults[:event_results].each do|event|%>
+					<br/>
+					<%=link_to event.event_name,event_path(event.id)%>
+				<%end%>
+				<br/><br/>
+				<%= will_paginate @searchresults[:event_results] %>
+				
+			<% elsif @toggle === "users" && !@searchresults[:profile_results].nil? && !@searchresults[:profile_results].empty?%>
+		
+				Users:
+				<%@searchresults[:profile_results].each do|user|%>
+					<br/>
+					<%=link_to user.name,profile_path(user.id)%>
+				<%end%>
+				<br/><br/>
+				<%= will_paginate @searchresults[:profile_results] %>
+			<%end%>
+			</div>
+			<p id="loading" style="visibility:hidden">Loading more page results...</p>
+		<%end%>
+	
+	</div>
+
+</div>
